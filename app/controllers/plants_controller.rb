@@ -2,42 +2,53 @@ class PlantsController < ApplicationController
   before_action :set_plant, only: [:show, :update, :destroy]
 
   # GET /plants
+  # GET /plants.json
   def index
     @plants = Plant.all
-    json_response(@plants)
+  end
+
+  # GET /plants/1
+  # GET /plants/1.json
+  def show
+    render_json @plant
   end
 
   # POST /plants
+  # POST /plants.json
   def create
-    @plant = Plant.create!(plant_params)
-    json_response(@plant, :created)
+    @plant = Plant.new(plant_params)
+
+    if @plant.save
+      render :show, status: :created, location: @plant
+    else
+      render json: @plant.errors, status: :unprocessable_entity
+    end
   end
 
-  # GET /plants/:id
-  def show
-    json_response(@plant)
-  end
-
-  # PUT /plants/:id
+  # PATCH/PUT /plants/1
+  # PATCH/PUT /plants/1.json
   def update
-    @plant.update(plant_params)
-    head :no_content
+    if @plant.update(plant_params)
+      render :show, status: :ok, location: @plant
+    else
+      render json: @plant.errors, status: :unprocessable_entity
+    end
   end
 
-  # DELETE /plants/:id
+  # DELETE /plants/1
+  # DELETE /plants/1.json
   def destroy
     @plant.destroy
-    head :no_content
   end
 
   private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_plant
+      @plant = Plant.find(params[:id])
+    end
 
-  def plant_params
-    # whitelist params
-    params.permit(:scientific_name, :common_name, :light, :type)
-  end
-
-  def set_plant
-    @plant = Plant.find(params[:id])
-  end
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def plant_params
+      params.require(:plant).permit(:timestamps, :event, :scientific_name, :common_name, :light)
+    end
 end

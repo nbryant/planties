@@ -23,116 +23,123 @@ require 'rails_helper'
 # removed from Rails core in Rails 5, but can be added back in via the
 # `rails-controller-testing` gem.
 
-RSpec.describe PlantsController, type: :controller do
-
+RSpec.describe EventsController, type: :controller do
+  let(:plant) { create(:plant) }
   # This should return the minimal set of attributes required to create a valid
-  # Plant. As you add validations to Plant, be sure to
+  # Event. As you add validations to Event, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
+    # skip("Add a hash of attributes valid for your model")
     {
-      common_name: 'Snake Plant',
-      light: 3,
-      scientific_name: 'Sansevieria trifasciata'
+      plant_id: plant.id
     }
   }
 
   let(:invalid_attributes) {
+    # skip("Add a hash of attributes invalid for your model")
     {
-      light: 30,
+      plant_id: nil
     }
   }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
-  # PlantsController. Be sure to keep this updated too.
+  # EventsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
   describe "GET #index" do
     it "returns a success response" do
-      plant = Plant.create! valid_attributes
-      get :index, params: {}, session: valid_session
+      event = Event.create! valid_attributes
+      get :index, params: { }, session: valid_session
       expect(response).to be_success
     end
   end
 
   describe "GET #show" do
     it "returns a success response" do
-      plant = Plant.create! valid_attributes
-      get :show, params: {id: plant.to_param}, session: valid_session
+      event = Event.create! valid_attributes
+      get :show, params: {id: event.to_param}, session: valid_session
       expect(response).to be_success
     end
   end
 
   describe "POST #create" do
     context "with valid params" do
-      it "creates a new Plant" do
+      it "creates a new Event" do
         expect {
-          post :create, params: {plant: valid_attributes}, session: valid_session
-        }.to change(Plant, :count).by(1)
+          post :create, params: {event: valid_attributes}, session: valid_session
+        }.to change(Event, :count).by(1)
       end
 
-      it "renders a JSON response with the new plant" do
+      it "renders a JSON response with the new event" do
 
-        post :create, params: {plant: valid_attributes}, session: valid_session
+        post :create, params: {event: valid_attributes}, session: valid_session
         expect(response).to have_http_status(:created)
         expect(response.content_type).to eq('application/json')
-        expect(response.location).to eq(plant_url(Plant.last))
+        expect(response.location).to eq(event_url(Event.last))
       end
     end
 
     context "with invalid params" do
-      it "renders a JSON response with errors for the new plant" do
+      it "renders a JSON response with errors for the new event" do
 
-        post :create, params: {plant: invalid_attributes}, session: valid_session
+        post :create, params: {event: invalid_attributes}, session: valid_session
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to eq('application/json')
       end
     end
   end
 
-  describe "PUT #update" do
+  # probaly won't be updating Events
+  skip "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
         {
-          common_name: 'Snake Plant',
-          light: 2,
-          scientific_name: 'Sansevieria trifasciata'
+          plant_id: create(:plant).id
         }
       }
 
-      it "updates the requested plant" do
-        plant = Plant.create! valid_attributes
-        put :update, params: {id: plant.to_param, plant: new_attributes}, session: valid_session
-        plant.reload
-        expect(plant.light).to eq(2)
+      it "does not update the requested event" do
+        event = Event.create! valid_attributes
+        put :update, params: {id: event.to_param, event: new_attributes}, session: valid_session
+        event.reload
+        expect(event.plant_id).to eq(plant.id)
       end
 
-      it "renders a JSON response with the plant" do
-        plant = Plant.create! valid_attributes
+      it "renders empty JSON response with 405" do
+        event = Event.create! valid_attributes
 
-        put :update, params: {id: plant.to_param, plant: valid_attributes}, session: valid_session
-        expect(response).to have_http_status(:ok)
+        put :update, params: {id: event.to_param, event: valid_attributes}, session: valid_session
+        expect(response).to have_http_status(:method_not_allowed)
         expect(response.content_type).to eq('application/json')
       end
     end
 
     context "with invalid params" do
-      it "renders a JSON response with errors for the plant" do
-        plant = Plant.create! valid_attributes
+      it "renders empty JSON response with 405" do
+        event = Event.create! valid_attributes
 
-        put :update, params: {id: plant.to_param, plant: invalid_attributes}, session: valid_session
-        expect(response).to have_http_status(:unprocessable_entity)
+        put :update, params: {id: event.to_param, event: invalid_attributes}, session: valid_session
+        expect(response).to have_http_status(:method_not_allowed)
         expect(response.content_type).to eq('application/json')
       end
     end
   end
 
-  describe "DELETE #destroy" do
-    it "destroys the requested plant" do
-      plant = Plant.create! valid_attributes
+  # probably won't destroy either
+  skip "DELETE #destroy" do
+    it "destroys the requested event" do
+      event = Event.create! valid_attributes
       expect {
-        delete :destroy, params: {id: plant.to_param}, session: valid_session
-      }.to change(Plant, :count).by(-1)
+        delete :destroy, params: {id: event.to_param}, session: valid_session
+      }.to_not change(Event, :count)
+    end
+    it "renders empty JSON response with 405" do
+      event = Event.create! valid_attributes
+
+      delete :destroy, params: {id: event.to_param}, session: valid_session
+      expect(response).to have_http_status(:method_not_allowed)
+      expect(response.content_type).to eq('application/json')
     end
   end
 

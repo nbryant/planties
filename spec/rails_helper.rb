@@ -80,4 +80,10 @@ RSpec.configure do |config|
   end
 
   config.include RequestSpecHelper, type: :request
+  
+  # force requests against controllers to use JSON
+  config.before(:each, type: :controller) do
+    request.headers['Accept'] = 'application/json'
+    request.headers['Content-Type'] = 'application/json'
+  end
 end

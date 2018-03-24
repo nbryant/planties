@@ -3,4 +3,8 @@ module RequestSpecHelper
   def json
     JSON.parse(response.body)
   end
+
+  def attr
+    json['data']['attributes']
+  end
 end

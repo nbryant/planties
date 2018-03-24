@@ -66,3 +66,6 @@ gem "pg", "~> 1.0"
 
 # Added at 2018-03-17 18:23:06 -0400 by nathanbryant:
 gem "factory_girl", "~> 4.9"
+
+# Added at 2018-03-24 11:07:15 -0400 by nathanbryant:
+gem "fast_jsonapi", "~> 1.1"

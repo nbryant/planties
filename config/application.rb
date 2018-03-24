@@ -15,5 +15,10 @@ module Planties
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
     config.api_only = true
+
+    config.generators do |g|
+      g.jbuilder          false
+      g.fast_jsonapi true
+    end
   end
 end
