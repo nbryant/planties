@@ -64,8 +64,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # Added at 2018-03-17 11:22:13 -0400 by nathanbryant:
 gem "pg", "~> 1.0"
 
-# Added at 2018-03-17 18:23:06 -0400 by nathanbryant:
-gem "factory_girl", "~> 4.9"
-
 # Added at 2018-03-24 11:07:15 -0400 by nathanbryant:
 gem "fast_jsonapi", "~> 1.1"
+
+# Added at 2018-03-24 14:09:48 -0400 by nathanbryant:
+gem "rack-cors", "~> 1.0"

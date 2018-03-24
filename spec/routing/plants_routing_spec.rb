@@ -7,7 +7,6 @@ RSpec.describe PlantsController, type: :routing do
       expect(:get => "/plants").to route_to("plants#index", :format => :json)
     end
 
-
     it "routes to #show" do
       expect(:get => "/plants/1").to route_to("plants#show", :id => "1", :format => :json)
     end

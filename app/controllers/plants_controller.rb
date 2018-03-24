@@ -5,6 +5,7 @@ class PlantsController < ApplicationController
   # GET /plants.json
   def index
     @plants = Plant.all
+    render_json @plants
   end
 
   # GET /plants/1

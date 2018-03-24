@@ -1,4 +1,4 @@
 class EventSerializer
-  include FastJsonapi::ObjectSerializer
+  include Serialization
   attributes :created_at, :updated_at
 end

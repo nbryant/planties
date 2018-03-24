@@ -1,4 +1,5 @@
 class PlantSerializer
-  include FastJsonapi::ObjectSerializer
+  include Serialization
   attributes :common_name, :scientific_name, :light
+  has_many :event
 end
